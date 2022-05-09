@@ -1,6 +1,8 @@
 import { useRef, useState, useMemo } from "react";
 import mammoth from "mammoth";
 import parse from "html-react-parser";
+import Code from "./Code";
+import formatStringToHtml from "format-string-to-html";
 
 export default function App() {
   const fileInputRef = useRef(null);
@@ -32,7 +34,15 @@ export default function App() {
     if (stringifyDocument === "") {
       return <span>Show preview</span>;
     }
-    return parse(stringifyDocument);
+    return (
+      <Stack gap={2}>
+        <div>{parse(stringifyDocument)}</div>
+        <Code
+          code={new formatStringToHtml(stringifyDocument).format()}
+          language="html"
+        />
+      </Stack>
+    );
   }, [stringifyDocument]);
 
   return (
